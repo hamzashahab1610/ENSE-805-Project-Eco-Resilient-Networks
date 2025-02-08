@@ -1,0 +1,7 @@
+WHAT TO INCLUDE IN THE PROJECT PITCH PRESENTATION
+-------------------------------------------------
+- We need to include our project aligns with which SDGs?
+- How our project aligns with The Golden Circle i.e. Why, How, What
+- How our project aligns with PDSA (Plan-Do-Study-Act)?
+- Add Common License - Creative Commons Share & Share Alike (CC BY-SA 4.0)
+	- https://creativecommons.org/licenses/by-sa/4.0/
