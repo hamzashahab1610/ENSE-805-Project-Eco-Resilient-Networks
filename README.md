@@ -10,6 +10,12 @@
 
 </div>
 
+## 🎥 Project Demo
+
+[![Project Demo Video](https://img.youtube.com/vi/rTxHQ_QV1TM/0.jpg)](https://youtu.be/rTxHQ_QV1TM)
+
+> 🎬 Click the image above to watch our project demonstration
+
 ## 📚 Quick Navigation
 
 -   [Project Overview](#-project-overview)
