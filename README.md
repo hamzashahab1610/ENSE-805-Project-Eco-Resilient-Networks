@@ -20,7 +20,7 @@
 -   [Methodology](#-methodology)
 -   [Technical Details](#-technical-innovation)
 -   [Documentation](#-documentation)
--   [Authors](#-authors)
+-   [Research Team](#-research-team)
 -   [License](#-license)
 -   [Get Involved](#-contributing)
 
@@ -126,9 +126,7 @@ The repository includes comprehensive project documentation covering:
 -   📈 Sustainability metrics and goals
 -   📖 Implementation guidelines
 
-## 👥 Authors
-
-### 👥 Research Team
+## 👥 Research Team
 
 | Name                    | Contact              | Role             | ID           |
 | ----------------------- | -------------------- | ---------------- | ------------ |
