@@ -12,13 +12,15 @@
 
 ## 📚 Quick Navigation
 
--   [Project Overview](#project-overview)
--   [Why This Matters](#why-this-matters)
--   [Project Goals](#project-goals)
--   [SDG Alignment](#un-sustainable-development-goals-alignment)
--   [Technical Details](#technical-innovation)
--   [Documentation](#documentation)
--   [Get Involved](#contributing)
+-   [Project Overview](#-project-overview)
+-   [Why This Matters](#-why-this-matters)
+-   [Project Goals](#-project-goals--innovation)
+-   [UN SDGs Alignment](#-un-sustainable-development-goals-alignment)
+-   [Methodology](#-methodology)
+-   [Technical Details](#-technical-innovation)
+-   [Documentation](#-documentation)
+-   [License](#-license)
+-   [Get Involved](#-contributing)
 
 ## 🌟 Project Overview
 
@@ -125,7 +127,3 @@ This project is licensed under Creative Commons CC0 1.0 Universal. See the [LICE
 ## 🤝 Contributing
 
 This is a research project for ENSE 805. Please contact the project maintainers for any collaboration inquiries.
-
-## 📬 Contact
-
-For any questions or concerns regarding this project, please reach out to the project team at the University of Regina.
