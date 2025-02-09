@@ -91,27 +91,27 @@ This project directly contributes to multiple UN SDGs:
 
 The project follows these key methodological frameworks:
 
-1. **The Golden Circle**
+1. 🎯 **The Golden Circle**
 
-    - Why: Purpose and beliefs driving the project
-    - How: Specific actions and processes
-    - What: Results and deliverables
+    - 💭 Why: Purpose and beliefs driving the project
+    - ⚙️ How: Specific actions and processes
+    - 📋 What: Results and deliverables
 
-2. **PDSA Cycle**
-    - Plan: Initial project setup and requirements gathering
-    - Do: Implementation and deployment
-    - Study: Analysis and evaluation
-    - Act: Improvements and adjustments
+2. 🔄 **PDSA Cycle**
+    - 📝 Plan: Initial project setup and requirements gathering
+    - 🛠️ Do: Implementation and deployment
+    - 🔍 Study: Analysis and evaluation
+    - ✨ Act: Improvements and adjustments
 
-## 🛠 Technical Innovation
+## 🛠️ Technical Innovation
 
 Our solution introduces:
 
--   Joint optimization algorithms for availability and sustainability
--   Smart embedding policies for network functions
--   Intelligent redundancy management
--   Energy-aware resource allocation
--   Performance-sustainability balancing mechanisms
+-   🎯 Joint optimization algorithms for availability and sustainability
+-   🔄 Smart embedding policies for network functions
+-   🧠 Intelligent redundancy management
+-   ⚡ Energy-aware resource allocation
+-   ⚖️ Performance-sustainability balancing mechanisms
 
 ## 📊 Documentation
 
@@ -130,10 +130,10 @@ The repository includes comprehensive project documentation covering:
 
 ### 👥 Research Team
 
-| Name                    | Contact              | Role                  | ID           |
-| ----------------------- | -------------------- | --------------------- | ------------ |
-| Muhammad Hamza Shahab   | 📧 msx044@uregina.ca | 👨‍💻 Lead Researcher    | 🔢 200515754 |
-| Syed Haider Abbas Naqvi | 📧 snh436@uregina.ca | 👨‍💻 Research Associate | 🔢 200511148 |
+| Name                    | Contact              | Role             | ID           |
+| ----------------------- | -------------------- | ---------------- | ------------ |
+| Muhammad Hamza Shahab   | 📧 msx044@uregina.ca | 👨‍💻 Co Researcher | 🔢 200515754 |
+| Syed Haider Abbas Naqvi | 📧 snh436@uregina.ca | 👨‍💻 Co Researcher | 🔢 200511148 |
 
 _🎓 Project developed as part of ENSE 805 at University of Regina_
 
