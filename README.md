@@ -117,14 +117,14 @@ Our solution introduces:
 
 The repository includes comprehensive project documentation covering:
 
--   Project planning and initialization
--   Stakeholder analysis
--   Business case development
--   Technical requirements
--   Project scope and schedule
--   Community-centered approach
--   Sustainability metrics and goals
--   Implementation guidelines
+-   📝 Project planning and initialization
+-   👥 Stakeholder analysis
+-   💼 Business case development
+-   🔧 Technical requirements
+-   📅 Project scope and schedule
+-   🤝 Community-centered approach
+-   📈 Sustainability metrics and goals
+-   📖 Implementation guidelines
 
 ## 👥 Authors
 
