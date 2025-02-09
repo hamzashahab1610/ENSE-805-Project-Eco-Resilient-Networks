@@ -13,6 +13,7 @@
 ## 📚 Quick Navigation
 
 -   [Project Overview](#-project-overview)
+-   [Project Background](#-project-background)
 -   [Why This Matters](#-why-this-matters)
 -   [Project Goals](#-project-goals--innovation)
 -   [UN SDGs Alignment](#-un-sustainable-development-goals-alignment)
@@ -25,6 +26,10 @@
 ## 🌟 Project Overview
 
 This research project, developed at the University of Regina (ENSE 805), focuses on creating sustainable and resilient network infrastructure through intelligent resource management and environmental awareness. The project aims to optimize network services for high availability and low environmental impact by developing novel embedding policies and metaheuristic algorithms.
+
+## 💡 Project Background
+
+The exponential growth of network services and their environmental impact necessitates a paradigm shift in how we approach network infrastructure. Our project addresses the critical challenge of balancing high availability with environmental sustainability in edge-cloud environments. By developing intelligent resource management strategies and energy-efficient algorithms, we aim to create eco-resilient networks that can meet the demands of the future.
 
 ## 🤔 Why This Matters
 
@@ -127,3 +132,7 @@ This project is licensed under Creative Commons CC0 1.0 Universal. See the [LICE
 ## 🤝 Contributing
 
 This is a research project for ENSE 805. Please contact the project maintainers for any collaboration inquiries.
+
+```
+
+```
