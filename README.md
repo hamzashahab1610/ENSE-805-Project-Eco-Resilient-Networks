@@ -20,6 +20,7 @@
 -   [Methodology](#-methodology)
 -   [Technical Details](#-technical-innovation)
 -   [Documentation](#-documentation)
+-   [Authors](#-authors)
 -   [License](#-license)
 -   [Get Involved](#-contributing)
 
@@ -62,29 +63,29 @@ The exponential growth of network services and their environmental impact necess
 
 This project directly contributes to multiple UN SDGs:
 
-### SDG 7: Affordable and Clean Energy
+### 🌍 SDG 7: Affordable and Clean Energy ⚡
 
--   Optimizes energy efficiency in network infrastructure
--   Minimizes data center energy consumption
--   Improves edge device energy utilization
+-   🔋 Optimizes energy efficiency in network infrastructure
+-   💡 Minimizes data center energy consumption
+-   ⚡ Improves edge device energy utilization
 
-### SDG 11: Sustainable Cities and Communities
+### 🌆 SDG 11: Sustainable Cities and Communities
 
--   Supports smart city applications through optimized edge computing
--   Enhances urban infrastructure sustainability
--   Improves network service availability
+-   🏙️ Supports smart city applications through optimized edge computing
+-   🌱 Enhances urban infrastructure sustainability
+-   🔄 Improves network service availability
 
-### SDG 12: Responsible Consumption and Production
+### ♻️ SDG 12: Responsible Consumption and Production
 
--   Promotes efficient computing resource utilization
--   Minimizes hardware redundancy
--   Optimizes data center resource usage
+-   📊 Promotes efficient computing resource utilization
+-   🔄 Minimizes hardware redundancy
+-   ⚡ Optimizes data center resource usage
 
-### SDG 13: Climate Action
+### 🌡️ SDG 13: Climate Action
 
--   Reduces network infrastructure carbon footprint
--   Implements sustainability-aware algorithms
--   Develops climate-conscious embedding policies
+-   🌿 Reduces network infrastructure carbon footprint
+-   🧠 Implements sustainability-aware algorithms
+-   🌱 Develops climate-conscious embedding policies
 
 ## 🔄 Methodology
 
@@ -125,14 +126,26 @@ The repository includes comprehensive project documentation covering:
 -   Sustainability metrics and goals
 -   Implementation guidelines
 
+## 👥 Authors
+
+### 👥 Research Team
+
+| Name                    | Contact              | Role                  | ID           |
+| ----------------------- | -------------------- | --------------------- | ------------ |
+| Muhammad Hamza Shahab   | 📧 msx044@uregina.ca | 👨‍💻 Lead Researcher    | 🔢 200515754 |
+| Syed Haider Abbas Naqvi | 📧 snh436@uregina.ca | 👨‍💻 Research Associate | 🔢 200511148 |
+
+_🎓 Project developed as part of ENSE 805 at University of Regina_
+
 ## 📄 License
 
 This project is licensed under Creative Commons CC0 1.0 Universal. See the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
-This is a research project for ENSE 805. Please contact the project maintainers for any collaboration inquiries.
+🔍 This is a research project for ENSE 805. Please contact the project maintainers for any collaboration inquiries:
 
-```
-
-```
+-   📧 Email the research team
+-   💡 Submit suggestions
+-   🤝 Join our research efforts
+-   📚 Review our documentation
