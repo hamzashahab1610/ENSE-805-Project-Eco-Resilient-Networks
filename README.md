@@ -10,11 +10,11 @@
 
 </div>
 
-## 🎥 Project Demo
+## 🎥 Project Vlog
 
-[![Project Demo Video](https://img.youtube.com/vi/rTxHQ_QV1TM/0.jpg)](https://youtu.be/rTxHQ_QV1TM)
+[![Project Vlog Video](https://img.youtube.com/vi/rTxHQ_QV1TM/0.jpg)](https://youtu.be/rTxHQ_QV1TM)
 
-> 🎬 Click the image above to watch our project demonstration
+> 🎬 Click the image above to watch our project vlog
 
 ## 📚 Quick Navigation
 
