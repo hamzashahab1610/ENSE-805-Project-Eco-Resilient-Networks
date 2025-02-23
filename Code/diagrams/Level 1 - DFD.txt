@@ -1,0 +1,40 @@
+@startuml
+!theme plain
+skinparam backgroundColor white
+
+' Level 1 DFD
+title Level 1: VNF Placement System Data Flow Diagram
+
+database "System State" as state {
+    [Network Topology]
+    [Resource Status]
+    [SFC Requirements]
+}
+
+[VNF Manager] as vnf_mgr
+[Path Finder] as path_finder
+[Resource Monitor] as res_monitor
+[Availability Calculator] as avail_calc
+[Carbon Footprint Calculator] as carbon_calc
+[Latency Calculator] as latency_calc
+
+state --> vnf_mgr : Network & Resource Info
+vnf_mgr --> path_finder : VNF Placement Requests
+path_finder --> vnf_mgr : Available Paths
+vnf_mgr --> res_monitor : Resource Allocation Requests
+res_monitor --> vnf_mgr : Resource Status
+
+vnf_mgr --> avail_calc : System Configuration
+avail_calc --> vnf_mgr : Availability Metrics
+
+vnf_mgr --> carbon_calc : Resource Usage Data
+carbon_calc --> vnf_mgr : Carbon Footprint Metrics
+
+vnf_mgr --> latency_calc : Network Path Data
+latency_calc --> vnf_mgr : Latency Metrics
+
+[Optimization Engine] as opt_engine
+vnf_mgr --> opt_engine : System Metrics
+opt_engine --> vnf_mgr : Optimized Placement Decisions
+
+@enduml

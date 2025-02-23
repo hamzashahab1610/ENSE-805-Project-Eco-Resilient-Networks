@@ -1,0 +1,77 @@
+@startuml
+!theme plain
+skinparam backgroundColor white
+skinparam componentStyle rectangle
+
+title VNF Placement System - Architecture Diagram
+
+package "Input Layer" {
+    [Workload Generator] as WG
+    [Topology Generator] as TG
+    database "Configuration Files" {
+        [physical.json] as PJ
+        [workload.json] as WJ
+    }
+}
+
+package "Core System" {
+    [System Manager] as SM
+    
+    package "Network Components" {
+        [Node Manager] as NM
+        [Switch Manager] as SWM
+        [Physical Link Manager] as PLM
+    }
+    
+    package "Service Components" {
+        [SFC Manager] as SFCM
+        [VNF Manager] as VNFM
+        [Virtual Link Manager] as VLM
+    }
+    
+    package "Optimization Components" {
+        [Path Finder] as PF
+        [Resource Monitor] as RM
+        [Metrics Calculator] as MC
+    }
+}
+
+package "Output Layer" {
+    [Placement Results] as PR
+    [Performance Metrics] as PM
+}
+
+' Input flows
+WG ..> WJ : generates
+TG ..> PJ : generates
+PJ --> SM : configures
+WJ --> SM : defines workload
+
+' Core system flows
+SM --> NM : manages
+SM --> SWM : manages
+SM --> PLM : manages
+SM --> SFCM : orchestrates
+SFCM --> VNFM : manages
+SFCM --> VLM : manages
+
+' Optimization flows
+SM --> PF : requests paths
+SM --> RM : monitors resources
+SM --> MC : calculates metrics
+
+' Output flows
+SM --> PR : produces
+SM --> PM : generates
+
+legend right
+    |= Component Type |= Description |
+    | Input Layer | Handles system configuration and workload generation |
+    | Core System | Main processing and management components |
+    | Network Components | Physical infrastructure management |
+    | Service Components | Service function chain management |
+    | Optimization Components | Resource optimization and metrics |
+    | Output Layer | Results and performance data |
+endlegend
+
+@enduml

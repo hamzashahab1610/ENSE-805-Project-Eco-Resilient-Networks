@@ -1,0 +1,5 @@
+# VNF name to host mapping
+f1,n1
+f2,n1
+f3,n1
+f4,n2
