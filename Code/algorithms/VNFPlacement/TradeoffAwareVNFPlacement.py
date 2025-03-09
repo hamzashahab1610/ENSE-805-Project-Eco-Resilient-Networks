@@ -48,12 +48,6 @@ class TradeoffAwareVNFPlacement:
         normalized_availability = math.log(candidate_node.availability)
         normalized_carbon_footprint = math.log(candidate_node.carbon_footprint)
 
-        # Edge nodes consideration
-        # cpu_score = 0
-        # if candidate_node.total_cpu < 16:
-        #     cpu_score = 5
-
         score = normalized_availability - normalized_carbon_footprint
-        # + cpu_score
 
         return score

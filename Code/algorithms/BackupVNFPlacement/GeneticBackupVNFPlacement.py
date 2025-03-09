@@ -8,19 +8,17 @@ from typing import List, Tuple
 class GeneticBackupVNFPlacement:
     def __init__(
         self,
-        system,
+        policy,
         population_size=100,
         generations=50,
         mutation_rate=0.1,
         selection_rate=0.2,
     ):
-        self.tradeoff_aware = TradeoffAwareVNFPlacement.TradeoffAwareVNFPlacement(
-            system
-        )
-        self.system = self.tradeoff_aware.placement()
+        self.policy = policy
+        self.system = self.policy.placement()
         self.candidate_nodes = sorted(
             self.system.nodes,
-            key=lambda node: self.tradeoff_aware.get_node_score(node),
+            key=lambda node: self.policy.get_node_score(node),
             reverse=True,
         )
 
@@ -38,7 +36,7 @@ class GeneticBackupVNFPlacement:
 
     def fitness(self, chromosome: List[int]) -> float:
         self.system.reset()
-        self.tradeoff_aware.placement()
+        self.policy.placement()
 
         reward = 0
         idx = 0
@@ -140,7 +138,7 @@ class GeneticBackupVNFPlacement:
     def apply_solution(self, solution: List[int]):
         idx = 0
         self.system.reset()
-        self.tradeoff_aware.placement()
+        self.policy.placement()
         self.system.solution = solution
 
         print("Solution:", solution)

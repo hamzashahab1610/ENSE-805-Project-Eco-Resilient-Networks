@@ -9,19 +9,17 @@ from typing import List, Tuple
 class SABackupVNFPlacement:
     def __init__(
         self,
-        system,
+        policy,
         initial_temperature=100,
         cooling_rate=0.95,
         iterations_per_temperature=50,
         min_temperature=0.1,
     ):
-        self.tradeoff_aware = TradeoffAwareVNFPlacement.TradeoffAwareVNFPlacement(
-            system
-        )
-        self.system = self.tradeoff_aware.placement()
+        self.policy = policy
+        self.system = self.policy.placement()
         self.candidate_nodes = sorted(
             self.system.nodes,
-            key=lambda node: self.tradeoff_aware.get_node_score(node),
+            key=lambda node: self.policy.get_node_score(node),
             reverse=True,
         )
         self.initial_temperature = initial_temperature
@@ -35,7 +33,7 @@ class SABackupVNFPlacement:
 
     def fitness(self, solution: List[int]) -> float:
         self.system.reset()
-        self.tradeoff_aware.placement()
+        self.policy.placement()
 
         idx = 0
         reward = 0
@@ -133,7 +131,7 @@ class SABackupVNFPlacement:
     def apply_solution(self, solution: List[int]):
         idx = 0
         self.system.reset()
-        self.tradeoff_aware.placement()
+        self.policy.placement()
         self.system.solution = solution
 
         print("Solution:", solution)

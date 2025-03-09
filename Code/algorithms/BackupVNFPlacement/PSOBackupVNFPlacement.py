@@ -7,15 +7,13 @@ from typing import List, Tuple
 
 class PSOBackupVNFPlacement:
     def __init__(
-        self, system, num_particles=50, max_iterations=100, w=0.7, c1=1.5, c2=1.5
+        self, policy, num_particles=50, max_iterations=100, w=0.7, c1=1.5, c2=1.5
     ):
-        self.tradeoff_aware = TradeoffAwareVNFPlacement.TradeoffAwareVNFPlacement(
-            system
-        )
-        self.system = self.tradeoff_aware.placement()
+        self.policy = policy
+        self.system = self.policy.placement()
         self.candidate_nodes = sorted(
             self.system.nodes,
-            key=lambda node: self.tradeoff_aware.get_node_score(node),
+            key=lambda node: self.policy.get_node_score(node),
             reverse=True,
         )
         self.num_particles = num_particles
@@ -37,7 +35,7 @@ class PSOBackupVNFPlacement:
 
     def fitness(self, particle: np.ndarray) -> float:
         self.system.reset()
-        self.tradeoff_aware.placement()
+        self.policy.placement()
 
         reward = 0
         idx = 0
@@ -129,7 +127,7 @@ class PSOBackupVNFPlacement:
     def apply_solution(self, solution: np.ndarray):
         idx = 0
         self.system.reset()
-        self.tradeoff_aware.placement()
+        self.policy.placement()
         self.system.solution = solution
 
         print("Solution:", solution)
