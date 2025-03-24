@@ -93,35 +93,63 @@ class System:
 
         return True
 
-    def place_redundant_vnf(self, vnf, redundant_instances, candidate_nodes, sfc):
+    def place_redundant_vnf(
+        self, vnf, redundant_instances, candidate_nodes, sfc, backup_num=None
+    ):
+        candidate_nodes_copy = candidate_nodes.copy()
+
+        # Keep track of nodes that already have this VNF or its backups
+        used_nodes = []
+        
+        # Add the primary VNF's node to the used_nodes list
+        if vnf.node:
+            used_nodes.append(vnf.node)
+
+        # Add nodes of existing backup VNFs to the used_nodes list
+        primary_name = vnf.name.split("-backup-")[0]
+
+        for existing_vnf in sfc.vnfs:
+            if (existing_vnf.name == primary_name or 
+                existing_vnf.name.startswith(primary_name + "-backup-")) and existing_vnf.node:
+                if existing_vnf.node not in used_nodes:
+                    used_nodes.append(existing_vnf.node)
+
         for i in range(redundant_instances):
+            current_backup_num = backup_num
+            
+            if current_backup_num is None:
+              current_backup_num = len(
+                  [
+                      v
+                      for v in sfc.vnfs
+                      if v.name.startswith(vnf.name.split("-backup-")[0] + "-backup-")
+                  ]
+              )
+
             backup_vnf = sfc.create_backup_vnf(
                 vnf,
-                len(
-                    [
-                        v
-                        for v in sfc.vnfs
-                        if v.name.startswith(vnf.name.split("-backup-")[0] + "-backup-")
-                    ]
-                ),
+                current_backup_num,
             )
             placed = False
 
-            while candidate_nodes and not placed:
-                node = candidate_nodes[0]
+            # Filter out already used nodes for placement
+            available_nodes = [node for node in candidate_nodes_copy if node not in used_nodes]
+
+            while available_nodes and not placed:
+                node = available_nodes[0]
                 success = self.vnf_placement(backup_vnf, node, sfc)
 
                 if success:
                     placed = True
                 else:
-                    candidate_nodes.pop(0)
+                    available_nodes.pop(0)
 
             if not placed:
                 return False
 
-        self.candidate_nodes = candidate_nodes
+        self.candidate_nodes = [node for node in candidate_nodes_copy if node not in used_nodes]
 
-        return True, candidate_nodes
+        return True, self.candidate_nodes
 
     def check_switch_resource_constraints(self, switch, virtual_link):
         if switch.bandwidth < virtual_link.bandwidth:

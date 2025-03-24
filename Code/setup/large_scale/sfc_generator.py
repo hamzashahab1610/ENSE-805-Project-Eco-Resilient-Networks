@@ -16,6 +16,7 @@ def generate_sfc(sfc_id, num_vnfs):
             availability=0.9999,  # Availability‑aware and energy‑aware dynamic SFC placement using reinforcement learning
             processing_delay=1,
             backup_of=0,
+            type="vm"
         )
         vnfs.append(vnf)
 
@@ -38,6 +39,44 @@ def generate_sfc(sfc_id, num_vnfs):
 
     return sfc
 
+def convert_to_virtual_topology(sfcs):
+    topology = {
+        "nodes": [],
+        "policies": [],
+        "links": [],
+    }
+
+    for sfc in sfcs:
+        for vnf in sfc.vnfs:
+            topology["nodes"].append(
+                {
+                    "name": vnf.name,
+                    "mipoper": 800,
+                    "bw": 15000,
+                    "mips": 10000,
+                    "type": vnf.type,
+                    "pes": vnf.cpu,
+                    "ram": vnf.ram,
+                    "size": vnf.storage,
+                    "datacenter": "dc1",
+                    "host": vnf.node.name if vnf.node else None,
+                    "availability": vnf.availability,
+                    "processing_delay": vnf.processing_delay,
+                    "backup_of": vnf.backup_of,
+                }
+            )
+
+        for vlink in sfc.virtual_links:
+            topology["links"].append(
+              {
+                "name": vlink.source.name + vlink.target.name,
+                "source": vlink.source.name,
+                "destination": vlink.target.name,
+                "bandwidth": int(vlink.bandwidth * 1000000),
+              }
+            )
+
+    return topology
 
 def convert_to_virtual_topology_json(sfcs, topology_file):
     with open(topology_file) as f:
@@ -160,13 +199,13 @@ def build_sfcs_from_topology(topology_file):
 
 
 # Generate multiple SFCs
-# num_sfcs = 5  # Number of SFCs to generate
-# sfcs = []
+num_sfcs = 1  # Number of SFCs to generate
+sfcs = []
 
-# for sfc_id in range(num_sfcs):
-#     num_vnfs = 4
-#     sfc = generate_sfc(sfc_id, num_vnfs)
-#     sfcs.append(sfc)
+for sfc_id in range(num_sfcs):
+    num_vnfs = 3
+    sfc = generate_sfc(sfc_id, num_vnfs)
+    sfcs.append(sfc)
 
-topology_file = "sfc-virtual.json"
-sfcs = build_sfcs_from_topology(topology_file)
+# topology_file = "sfc-virtual.json"
+# sfcs = build_sfcs_from_topology(topology_file)

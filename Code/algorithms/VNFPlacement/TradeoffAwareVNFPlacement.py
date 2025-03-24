@@ -19,17 +19,23 @@ class TradeoffAwareVNFPlacement:
 
     def placement(self):
         for sfc in self.system.sfcs:
+            used_nodes = set()  # Track nodes used by this SFC
             for vnf in sfc.vnfs:
                 placed = False if vnf.node is None else True
+                available_nodes = [
+                    n for n in self.candidate_nodes if n not in used_nodes
+                ]
 
-                while self.candidate_nodes and not placed:
-                    node = self.candidate_nodes[0]
+                while available_nodes and not placed:
+                    node = available_nodes[0]  # Try best candidate first
                     success = self.system.vnf_placement(vnf, node, sfc)
 
                     if success:
                         placed = True
+                        used_nodes.add(node)
                     else:
-                        self.candidate_nodes.pop(0)
+                        # Remove failed node and try next best
+                        available_nodes.pop(0)
 
                 if not placed:
                     return False

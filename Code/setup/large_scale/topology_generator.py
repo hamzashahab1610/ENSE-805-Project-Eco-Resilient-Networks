@@ -327,34 +327,99 @@ def convert_topology_to_json(
 
     return topology
 
-
-def create_reduced_topology_from_system(system, spare_hosts_percentage=0.3):
+def create_topology_from_system(nodes, switches, physical_links):
     # Create new graph
     G = nx.Graph()
 
-    # Get used hosts and their switches
+    # Categorize switches by their type
+    core_switches = [sw for sw in switches if sw.name in ["s13", "s14"]]
+    aggr_switches = [
+        sw for sw in switches if sw.name in ["s7", "s8", "s9", "s10", "s11", "s12"]
+    ]
+    edge_switches = [
+        sw for sw in switches if sw.name in ["s1", "s2", "s3", "s4", "s5", "s6"]
+    ]
+
+    # Add nodes to graph with their respective layers
+    G.add_nodes_from([sw.name for sw in core_switches], layer=3)
+    G.add_nodes_from([sw.name for sw in aggr_switches], layer=2)
+    G.add_nodes_from([sw.name for sw in edge_switches], layer=1)
+    G.add_nodes_from([node.name for node in nodes], layer=0)
+
+    # Add edges from physical links
+    for link in physical_links:
+        G.add_edge(link.source.name, link.target.name)
+
+    # Create topology dictionary similar to create_reduced_topology_from_system
+    topology = {"datacenters": [{"name": "dc1"}], "nodes": [], "links": []}
+
+    # Add host nodes to topology
+    for node in nodes:
+        topology["nodes"].append({
+            "name": str(node.name),
+            "type": "host",
+            "pes": node.total_cpu,
+            "mips": node.total_cpu * 1000000,  # Convert CPU to MIPS
+            "ram": node.total_ram,
+            "storage": node.total_storage,
+            "bw": 1000000000,  # Using platform as bandwidth multiplier
+            "datacenter": "dc1",
+            "availability": node.initial_availability,
+            "p_min": node.p_min,
+            "p_max": node.p_max,
+            "co2": node.co2,
+        })
+
+    # Add switches to topology
+    for switch in switches:
+        # Determine switch type based on categorization
+        switch_type = "core" if switch in core_switches else \
+                     "aggregate" if switch in aggr_switches else "edge"
+        
+        topology["nodes"].append({
+            "name": switch.name,
+            "type": switch_type,
+            "iops": switch.total_bandwidth,
+            "upports": 0 if switch_type == "core" else 1,
+            "downports": len([link for link in physical_links 
+                              if link.source == switch or link.target == switch]),
+            "bw": switch.total_bandwidth,
+            "datacenter": "dc1",
+            "availability": switch.availability,
+            "p_static": switch.p_static,
+            "p_port": switch.p_port,
+            "co2": switch.co2,
+        })
+
+    # Add links to topology
+    for link in physical_links:
+        topology["links"].append({
+            "source": str(link.source.name),
+            "destination": str(link.target.name),
+            "latency": float(link.source.processing_delay + link.target.processing_delay),
+        })
+
+    return G, topology
+
+def create_reduced_topology_from_system(system, spare_hosts_percentage=0.3):
+    G = nx.Graph()
+
     used_hosts = [node for node in system.nodes if node.cpu_utilization > 0]
     print(f"Found {len(used_hosts)} active hosts")
 
-    # Calculate number of spare hosts needed
     num_spare_hosts = int(len(used_hosts) * spare_hosts_percentage)
 
-    # Get spare hosts from system's candidate nodes
-    # Filter out nodes that are already in use
     potential_spare_hosts = [
         node for node in system.candidate_nodes if node not in used_hosts
     ]
 
-    # Take the top N candidates as spare hosts
     spare_hosts = potential_spare_hosts[:num_spare_hosts]
     print(
         f"Added {len(spare_hosts)} spare hosts from candidate nodes for backup placement"
     )
 
-    # Combine used and spare hosts
-    all_hosts = used_hosts + spare_hosts
+    all_hosts = spare_hosts + used_hosts
 
-    # Get all switches that connect these hosts
     edge_switches = []
     print("Finding edge switches connected to active hosts...")
     for link in system.physical_links:
@@ -363,7 +428,6 @@ def create_reduced_topology_from_system(system, spare_hosts_percentage=0.3):
                 edge_switches.append(link.source)
                 print(f"Added edge switch: {link.source.name}")
 
-    # Then find all aggregation switches connected to these edge switches
     aggr_switches = []
     print("Finding aggregation switches connected to edge switches...")
     for edge_switch in edge_switches:
@@ -376,7 +440,6 @@ def create_reduced_topology_from_system(system, spare_hosts_percentage=0.3):
                 aggr_switches.append(link.target)
                 print(f"Added aggregation switch: {link.target.name}")
 
-    # Then find all core switches connected to these aggregation switches
     core_switches = []
     print("Finding core switches connected to aggregation switches...")
     for aggr_switch in aggr_switches:
@@ -395,10 +458,6 @@ def create_reduced_topology_from_system(system, spare_hosts_percentage=0.3):
         + f"(Edge: {len(edge_switches)}, Aggr: {len(aggr_switches)}, Core: {len(core_switches)})"
     )
 
-    # used_switches = [
-    #     switch for switch in system.switches if switch.bandwidth_utilization > 0
-    # ]
-
     used_links = [
         link
         for link in system.physical_links
@@ -406,20 +465,16 @@ def create_reduced_topology_from_system(system, spare_hosts_percentage=0.3):
         and link.target in all_hosts + used_switches
     ]
 
-    # Create graph
     G.add_nodes_from([sw.name for sw in used_switches if "Core" in sw.name], layer=3)
     G.add_nodes_from([sw.name for sw in used_switches if "Aggr" in sw.name], layer=2)
     G.add_nodes_from([sw.name for sw in used_switches if "Edge" in sw.name], layer=1)
     G.add_nodes_from([node.name for node in all_hosts], layer=0)
 
-    # Add links
     for link in used_links:
         G.add_edge(link.source.name, link.target.name)
 
-    # Create topology JSON
     topology = {"datacenters": [{"name": "dc1"}], "nodes": [], "links": []}
 
-    # Add nodes and switches to JSON
     for node in all_hosts:
         topology["nodes"].append(
             {
@@ -459,7 +514,6 @@ def create_reduced_topology_from_system(system, spare_hosts_percentage=0.3):
             }
         )
 
-    # Add links to JSON
     for link in used_links:
         topology["links"].append(
             {
@@ -472,33 +526,6 @@ def create_reduced_topology_from_system(system, spare_hosts_percentage=0.3):
         )
 
     return G, topology
-
-
-def create_graph_from_system(nodes, switches, physical_links):
-    # Create new graph
-    G = nx.Graph()
-
-    # Categorize switches by their type
-    core_switches = [sw for sw in switches if sw.name in ["s13", "s14"]]
-    aggr_switches = [
-        sw for sw in switches if sw.name in ["s7", "s8", "s9", "s10", "s11", "s12"]
-    ]
-    edge_switches = [
-        sw for sw in switches if sw.name in ["s1", "s2", "s3", "s4", "s5", "s6"]
-    ]
-
-    # Add nodes to graph with their respective layers
-    G.add_nodes_from([sw.name for sw in core_switches], layer=3)
-    G.add_nodes_from([sw.name for sw in aggr_switches], layer=2)
-    G.add_nodes_from([sw.name for sw in edge_switches], layer=1)
-    G.add_nodes_from([node.name for node in nodes], layer=0)
-
-    # Add edges from physical links
-    for link in physical_links:
-        G.add_edge(link.source.name, link.target.name)
-
-    return G
-
 
 def visualize_fat_tree(G, save_path=None):
     plt.figure(figsize=(12, 8))

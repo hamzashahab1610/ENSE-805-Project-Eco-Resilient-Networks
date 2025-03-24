@@ -5,26 +5,33 @@ import sys, os, time, pickle, json, config
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "setup"))
 
-if os.path.exists("system.pkl"):
-    with open("system.pkl", "rb") as file:
-        system = pickle.load(file)
-    print("Loaded saved system object.")
-else:
-    from large_scale.system import system
+from large_scale.sfc_generator import sfcs
 
-    print("Initialized a new system object.")
-    with open("system.pkl", "wb") as file:
-        pickle.dump(system, file)
-    print("System object saved successfully.")
+# if os.path.exists("system.pkl"):
+#     with open("system.pkl", "rb") as file:
+#         system = pickle.load(file)
+#     print("Loaded saved system object.")
+# else:
+#     from large_scale.system import system
+
+#     print("Initialized a new system object.")
+#     with open("system.pkl", "wb") as file:
+#         pickle.dump(system, file)
+#     print("System object saved successfully.")
 
 from large_scale.sfc_generator import (
-    sfcs,
-    convert_to_virtual_topology_json,
+    # sfcs,
+    convert_to_virtual_topology,
+    # convert_to_virtual_topology_json,
 )
+
 from large_scale.topology_generator import (
-    create_reduced_topology_from_system,
+    create_topology_from_system,
+    # create_reduced_topology_from_system,
     visualize_reduced_topology,
 )
+
+from small_scale.system1 import system
 
 from algorithms.VNFPlacement import (
     AvailabilityAwareVNFPlacement,
@@ -36,26 +43,13 @@ from algorithms.BackupVNFPlacement import (
     GeneticBackupVNFPlacement,
     PSOBackupVNFPlacement,
     SABackupVNFPlacement,
-    BackupVNFPlacementEnv
+    # BackupVNFPlacementEnv
 )
 
 # from classes import StepCallback
 
-def write_placement_file(system, filename):
-    unique_placements = {}
-
-    for sfc in system.sfcs:
-        for vnf in sfc.vnfs:
-            if vnf.node:
-                unique_placements[vnf.name] = vnf.node.name
-
-    with open(filename, "w") as f:
-        f.write("# VNF name to host mapping\n")
-        for vnf_name, node_name in unique_placements.items():
-            f.write(f"{vnf_name},{node_name}\n")
-
 system.weight = 0.4
-system.min_availability = 0.999
+system.min_availability = 0.99
 system.min_carbon_footprint = 10000
 system.max_carbon_footprint = 10000000
 start_time = time.time()
@@ -118,17 +112,19 @@ end_time = time.time()
 time_taken = end_time - start_time
 print(f"Time taken: {time_taken}")
 
-G, physical_topology = create_reduced_topology_from_system(system, 1)
+G, physical_topology = create_topology_from_system(nodes=system.nodes, switches=system.switches, physical_links=system.physical_links)
+# G, physical_topology = create_reduced_topology_from_system(system, 1)
 visualize_reduced_topology(G)
 
-virtual_topology = convert_to_virtual_topology_json(sfcs, "sfc-virtual.json")
+virtual_topology = convert_to_virtual_topology(sfcs)
+# virtual_topology = convert_to_virtual_topology_json(sfcs, "sfc-virtual.json")
 
 # Create directory for policy combination
 config.ensure_output_dir_exists()
 
 # Write files using config paths
-write_placement_file(system, config.get_placements_path())
-write_placement_file(system, config.get_backup_placements_path())
+config.write_placement_file(system, config.get_placements_path())
+config.write_placement_file(system, config.get_backup_placements_path())
 
 with open(config.get_physical_json_path(), "w") as f:
     json.dump(physical_topology, f, indent=2)

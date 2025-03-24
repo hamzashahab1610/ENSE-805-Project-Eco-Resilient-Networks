@@ -4,7 +4,7 @@ import pandas as pd
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from setup.large_scale.topology_generator import (
-    create_graph_from_system,
+    create_topology_from_system,
     visualize_fat_tree,
 )
 
@@ -135,8 +135,8 @@ for index, row in sfc1_vlink_df.iterrows():
 
 sfc1 = SFC.SFC("sfc1", sfc1_vnfs, sfc1_vlinks, 100)
 
-G = create_graph_from_system(nodes, switches, physical_links)
-visualize_fat_tree(G, save_path="system_topology.png")
+G,topology = create_topology_from_system(nodes, switches, physical_links)
+# visualize_fat_tree(G, save_path="system_topology.png")
 
 system = System.System(
     name="system1",
@@ -148,8 +148,8 @@ system = System.System(
     G=G,
 )
 
-system.sfcs = [sfc1]
+# system.sfcs = [sfc1]
 
-sfc1.set_system(system)
+# sfc1.set_system(system)
 
 system.print_system()
