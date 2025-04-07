@@ -1,0 +1,125 @@
+@startuml
+
+left to right direction
+
+class System {
+  + name: String
+  + sfcs: List<SFC>
+  + nodes: List<Node>
+  + switches: List<Switch>
+  + physical_links: List<PhysicalLink>
+  + redundancy: float
+  + latency: float
+  + availability: float
+  + carbon_footprint: float
+  + weight: float
+  + time_active: float
+  + min_availability: float
+  + reset()
+  + calculate_objective()
+  + calculate_availability()
+  + calculate_latency()
+  + calculate_carbon_footprint()
+}
+
+class Channel {
+  + name: String
+  + source: Node
+  + target: Node
+  + switches: List<Switch>
+  + availability: float
+  + latency: float
+  + channel_latency: float
+  + time_active: float
+  + carbon_footprint: float
+  + calculate_availability()
+  + calculate_latency()
+  + calculate_channel_latency()
+  + calculate_carbon_footprint()
+}
+
+class SFC {
+  + name: String
+  + vnfs: List<VNF>
+  + virtual_links: List<VirtualLink>
+  + latency: float
+  + availability: float
+  + max_latency: float
+  + system: System
+  + create_backup_vnf()
+  + calculate_availability()
+}
+
+class VirtualLink {
+  + name: String
+  + source: VNF
+  + target: VNF
+  + bandwidth: float
+  + path: Path
+}
+
+class Path {
+  + name: String
+  + source: Node
+  + target: Node
+  + channels: List<Channel>
+  + primary_channel: Channel
+  + common_switches: Set<Switch>
+  + unique_switches: Set<Switch>
+  + availability: float
+  + latency: float
+  + carbon_footprint: float
+  + calculate_availability()
+  + calculate_carbon_footprint()
+}
+
+class PathFinder {
+  + find_paths()
+}
+
+class VNF {
+  + name: String
+  + node: Node
+  + backup_of: String
+  + processing_delay: float
+  + availability: float
+  + clone()
+}
+
+class Node {
+  + name: String
+  + cpu: float
+  + ram: float
+  + storage: float
+  + availability: float
+  + vnfs: List<VNF>
+  + carbon_footprint: float
+  + calculate_carbon_footprint()
+}
+
+class Switch {
+  + name: String
+  + bandwidth: float
+  + virtual_links: List<VirtualLink>
+  + availability: float
+  + carbon_footprint: float
+  + processing_delay: float
+  + calculate_carbon_footprint()
+}
+
+System "1" *-- "*" SFC
+System "1" *-- "*" Node
+System "1" *-- "*" Switch
+System "1" *-- "1" PathFinder
+SFC "1" *-- "*" VNF
+SFC "1" *-- "*" VirtualLink
+Node "1" *-- "*" VNF
+Path "1" *-- "*" Channel
+Switch "1" *-- "*" VirtualLink
+VirtualLink "1" -- "1" Path
+VNF "1" -- "*" VirtualLink
+Channel "*" -- "*" Switch
+Channel "1" -- "1" Node
+Path "*" -- "1" Channel
+
+@enduml

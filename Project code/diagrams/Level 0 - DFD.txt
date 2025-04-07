@@ -1,0 +1,16 @@
+@startuml
+!theme plain
+skinparam backgroundColor white
+
+' Level 0 (Context Diagram)
+title Level 0: VNF Placement System Context Diagram
+
+[System Administrator] as admin
+[Network Infrastructure] as network
+(VNF Placement\nSystem) as system
+
+admin --> system : System Configuration\n(SFCs, VNFs, Nodes, Switches)
+system --> network : Placement Decisions\n(VNF assignments, Path selections)
+network --> system : Infrastructure State\n(Resource availability, Network metrics)
+
+@enduml

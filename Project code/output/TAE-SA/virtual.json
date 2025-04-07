@@ -1,0 +1,163 @@
+{
+	"nodes": [
+		{
+			"name": "VNF_0_0",
+			"mipoper": 800,
+			"bw": 15000,
+			"mips": 10000,
+			"type": "vm",
+			"pes": 2,
+			"ram": 1,
+			"size": 2,
+			"datacenter": "dc1",
+			"host": "n1",
+			"availability": 0.9999,
+			"processing_delay": 1,
+			"backup_of": 0
+		},
+		{
+			"name": "VNF_0_1",
+			"mipoper": 800,
+			"bw": 15000,
+			"mips": 10000,
+			"type": "vm",
+			"pes": 2,
+			"ram": 1,
+			"size": 2,
+			"datacenter": "dc1",
+			"host": "n2",
+			"availability": 0.9999,
+			"processing_delay": 1,
+			"backup_of": 0
+		},
+		{
+			"name": "VNF_0_2",
+			"mipoper": 800,
+			"bw": 15000,
+			"mips": 10000,
+			"type": "vm",
+			"pes": 2,
+			"ram": 1,
+			"size": 2,
+			"datacenter": "dc1",
+			"host": "n3",
+			"availability": 0.9999,
+			"processing_delay": 1,
+			"backup_of": 0
+		},
+		{
+			"name": "VNF_0_0-backup-0",
+			"mipoper": 800,
+			"bw": 15000,
+			"mips": 10000,
+			"type": "vm",
+			"pes": 2,
+			"ram": 1,
+			"size": 2,
+			"datacenter": "dc1",
+			"host": "n2",
+			"availability": 0.9999,
+			"processing_delay": 1,
+			"backup_of": "VNF_0_0"
+		},
+		{
+			"name": "VNF_0_1-backup-0",
+			"mipoper": 800,
+			"bw": 15000,
+			"mips": 10000,
+			"type": "vm",
+			"pes": 2,
+			"ram": 1,
+			"size": 2,
+			"datacenter": "dc1",
+			"host": "n1",
+			"availability": 0.9999,
+			"processing_delay": 1,
+			"backup_of": "VNF_0_1"
+		},
+		{
+			"name": "VNF_0_1-backup-1",
+			"mipoper": 800,
+			"bw": 15000,
+			"mips": 10000,
+			"type": "vm",
+			"pes": 2,
+			"ram": 1,
+			"size": 2,
+			"datacenter": "dc1",
+			"host": "n1",
+			"availability": 0.9999,
+			"processing_delay": 1,
+			"backup_of": "VNF_0_1"
+		},
+		{
+			"name": "VNF_0_1-backup-2",
+			"mipoper": 800,
+			"bw": 15000,
+			"mips": 10000,
+			"type": "vm",
+			"pes": 2,
+			"ram": 1,
+			"size": 2,
+			"datacenter": "dc1",
+			"host": "n1",
+			"availability": 0.9999,
+			"processing_delay": 1,
+			"backup_of": "VNF_0_1"
+		},
+		{
+			"name": "VNF_0_2-backup-0",
+			"mipoper": 800,
+			"bw": 15000,
+			"mips": 10000,
+			"type": "vm",
+			"pes": 2,
+			"ram": 1,
+			"size": 2,
+			"datacenter": "dc1",
+			"host": "n2",
+			"availability": 0.9999,
+			"processing_delay": 1,
+			"backup_of": "VNF_0_2"
+		},
+		{
+			"name": "VNF_0_2-backup-1",
+			"mipoper": 800,
+			"bw": 15000,
+			"mips": 10000,
+			"type": "vm",
+			"pes": 2,
+			"ram": 1,
+			"size": 2,
+			"datacenter": "dc1",
+			"host": "n2",
+			"availability": 0.9999,
+			"processing_delay": 1,
+			"backup_of": "VNF_0_2"
+		}
+	],
+	"policies": [
+		{
+			"name": "sfc-VNF_0_0VNF_0_2",
+			"flowname": "VNF_0_0VNF_0_2",
+			"source": "VNF_0_0",
+			"destination": "VNF_0_2",
+			"sfc": ["VNF_0_1"],
+			"expected_time": 100.0
+		}
+	],
+	"links": [
+		{
+			"name": "VNF_0_0VNF_0_1",
+			"source": "VNF_0_0",
+			"destination": "VNF_0_1",
+			"bandwidth": 10000
+		},
+		{
+			"name": "VNF_0_1VNF_0_2",
+			"source": "VNF_0_1",
+			"destination": "VNF_0_2",
+			"bandwidth": 10000
+		}
+	]
+}
