@@ -3,8 +3,9 @@ VNF_0_0,n1
 VNF_0_1,n2
 VNF_0_2,n3
 VNF_0_0-backup-0,n2
+VNF_0_0-backup-1,n2
+VNF_0_0-backup-2,n2
 VNF_0_1-backup-0,n1
 VNF_0_1-backup-1,n1
-VNF_0_1-backup-2,n1
-VNF_0_2-backup-0,n2
-VNF_0_2-backup-1,n2
+VNF_0_2-backup-0,n1
+VNF_0_2-backup-1,n4

@@ -4,18 +4,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "setup"))
 
 from large_scale.sfc_generator import sfcs
 
-# if os.path.exists("system.pkl"):
-#     with open("system.pkl", "rb") as file:
-#         system = pickle.load(file)
-#     print("Loaded saved system object.")
-# else:
-#     from large_scale.system import system
-
-#     print("Initialized a new system object.")
-#     with open("system.pkl", "wb") as file:
-#         pickle.dump(system, file)
-#     print("System object saved successfully.")
-
 from large_scale.sfc_generator import (
     # sfcs,
     convert_to_virtual_topology,
